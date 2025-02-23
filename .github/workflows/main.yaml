@@ -1,4 +1,4 @@
-name: Deploy a Surge
+name: Deploy to Surge
 
 on:
   push:
@@ -10,11 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout del código
       - name: Checkout del código
         uses: actions/checkout@v4
 
+      # Instalar dependencias (si aplica)
+      - name: Instalar dependencias
+        run: npm install
+
+      # Construir el proyecto (si aplica)
+      - name: Construir el proyecto
+        run: npm run build
+
+      # Instalar Surge
       - name: Instalar Surge
         run: npm install -g surge
 
+      # Deploy a Surge
       - name: Deploy a Surge
-        run: surge ./ BarberErasmoShop.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+        run: surge ./dist BarberErasmoShop.surge.sh --token ${{ secrets.SURGE_TOKEN }}
